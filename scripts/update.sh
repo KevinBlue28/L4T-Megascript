@@ -327,7 +327,7 @@ if [[ $SwitchDeckUserInput == "yes" ]]; then
   sleep 5
   bash -c "$(curl -s https://raw.githubusercontent.com/SildurFX/Switchdeck/refs/heads/main/files/steam/update-switchdeck.sh)" || exit $?
 else
-  echo "Skipping Xemu update..."
+  echo "Skipping Switchdeck update..."
 fi
 
 if [[ $XemuUserInput == "yes" ]]; then
