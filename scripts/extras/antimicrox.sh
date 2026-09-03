@@ -16,9 +16,9 @@ if command -v apt >/dev/null; then
     ;;
   *)
     sudo apt install -y git build-essential cmake extra-cmake-modules \
-      qt6-base-dev qt6-tools-dev qt6-l10n-tools \
-      libqt6core5compat6-dev libsdl2-dev libxi-dev libxtst-dev \
-      libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
+      qt6-base-dev qt6-tools-dev libsdl2-dev \
+      libqt6core5compat6-dev qt6-l10n-tools \
+      libxi-dev libxtst-dev libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
     ;;
   esac
 
