@@ -3,24 +3,15 @@
 if command -v apt >/dev/null; then
 
   case "$__os_codename" in
-  bionic)
-    if ! [[ "$dpkg_architecture" =~ ^("arm64"|"armhf")$ ]]; then
-      ubuntu_ppa_installer "beineri/opt-qt-5.15.2-bionic"
-    else
-      ubuntu_ppa_installer "theofficialgman/opt-qt-5.15.2-bionic-arm"
-    fi
-
-    sudo apt install -y git build-essential cmake extra-cmake-modules \
-      qt515base qt515tools libsdl2-dev libxi-dev libxtst-dev \
-      libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
-    ;;
-  *)
-    sudo apt install -y git build-essential cmake extra-cmake-modules \
-      qt6-base-dev qt6-tools-dev libsdl2-dev \
-      libqt6core5compat6-dev qt6-l10n-tools \
-      libxi-dev libxtst-dev libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
+  bionic | focal)
+    ubuntu_ppa_installer "okirby/qt6-backports"
     ;;
   esac
+
+  sudo apt install -y git build-essential cmake extra-cmake-modules \
+    qt6-base-dev qt6-tools-dev libsdl2-dev \
+    libqt6core5compat6-dev qt6-l10n-tools \
+    libxi-dev libxtst-dev libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
 
   hash -r
 
@@ -32,15 +23,7 @@ if command -v apt >/dev/null; then
   mkdir build && cd build
 
   # Building
-  case "$__os_codename" in
-  bionic)
-    cmake .. -DCMAKE_PREFIX_PATH=/opt/qt515 -DCMAKE_BUILD_WITH_INSTALL_RPATH=FALSE -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE || error "Cmake failed"
-    ;;
-  *)
-    cmake .. || error "Cmake failed"
-    ;;
-  esac
-
+  cmake .. || error "Cmake failed"
   make -j$(nproc) || error "Compilation failed"
 
   # Installing
