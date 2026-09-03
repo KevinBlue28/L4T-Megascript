@@ -16,8 +16,9 @@ if command -v apt >/dev/null; then
     ;;
   *)
     sudo apt install -y git build-essential cmake extra-cmake-modules \
-      qt6-base-dev qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools libsdl2-dev \
-      libxi-dev libxtst-dev libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
+      qt6-base-dev qt6-tools-dev qt6-l10n-tools \
+      libqt6core5compat6-dev libsdl2-dev libxi-dev libxtst-dev \
+      libx11-dev itstool gettext python3-libxml2 || error "Could not install dependencies"
     ;;
   esac
 
@@ -33,10 +34,10 @@ if command -v apt >/dev/null; then
   # Building
   case "$__os_codename" in
   bionic)
-    cmake .. -DUSE_QT6_BY_DEFAULT=OFF -DCMAKE_PREFIX_PATH=/opt/qt515 -DCMAKE_BUILD_WITH_INSTALL_RPATH=FALSE -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE || error "Cmake failed"
+    cmake .. -DCMAKE_PREFIX_PATH=/opt/qt515 -DCMAKE_BUILD_WITH_INSTALL_RPATH=FALSE -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=TRUE || error "Cmake failed"
     ;;
   *)
-    cmake .. -DUSE_QT6_BY_DEFAULT=ON || error "Cmake failed"
+    cmake .. || error "Cmake failed"
     ;;
   esac
 
